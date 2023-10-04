@@ -1,0 +1,106 @@
+@model List<DumpCity.Models.Product>
+
+@if (Model.Count == 0)
+{
+    <div class="empty-cart">
+        <h5 class="text-center">Please add items to cart! <br><br> <i class="fa-solid fa-ghost fa-2xl"></i></h5>
+
+        <div class="text-center pt-4">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-success btn-sm">Continue
+                Shopping <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </div>
+}
+
+@if (@Model.Count != 0)
+{
+    <form method="post">
+        <br />
+        <div class="backgroundWhiteBorder">
+            <div class="container row">
+                <div>
+                    <div class="card mt-4">
+                        <div class="card-header bg-dark text-light ms-0 row container">
+                            <div class="col-6 pt-1">
+                                <i class="fa fa-shopping-cart"></i> &nbsp;
+                                Shopping Cart
+                            </div>
+                            <div class="col-6 text-end">
+                                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-info btn-sm">Continue
+                                    Shopping <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class=" d-none d-lg-block">
+                                <div class="row" style="color:#821f3d">
+                                    <div class="col-lg-2">
+                                    </div>
+                                    <div class="col-12 col-lg-7">
+                                        Product Details
+                                    </div>
+                                    <div class="col-12 col-lg-2">
+                                        Price per sqft
+                                    </div>
+                                    <div class="col-6 col-sm-4 col-lg-1">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr />
+
+                            @foreach (var el in Model)
+                            {
+                                <div class="row h-100">
+                                    <div class="col-4 col-md-2 text-center py-2">
+                                        <img src="@WC.imageProductFolderPath@el.ImageURL" class="rounded" width="100%"
+                                            style="height: 10rem" />
+                                    </div>
+                                    <div class="col-8 col-lg-7">
+                                        <h5>@el.Name</h5>
+                                        <div style="font-size:11px;">@el.ShortDesc</div>
+                                    </div>
+                                    <div class="col-3 col-lg-2 pt-lg-4" style="font-size:11px;">
+                                        <span style="font-size:17px;"> $@el.Price</span>/ sqft
+
+                                    </div>
+                                    <div class="col-2 col-lg-1 p-0 pt-lg-4 text-center">
+                                        <a asp-action="Remove" asp-route-id="@el.ID" class="btn btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            }
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-6 col-md-3 offset-md-9">
+                                    <button type="submit" class="btn btn-success form-control">
+                                        <span><i class="fa-regular fa-circle-check"></i> Continue</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+}
+
+<style>
+    @@keyframes slideIn {
+        from {
+            margin-left: 100%;
+        }
+
+        to {
+            margin-left: 0%;
+        }
+    }
+
+    .empty-cart {
+        animation: .3s slideIn;
+    }
+</style>

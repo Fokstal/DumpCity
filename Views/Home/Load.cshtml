@@ -1,0 +1,29 @@
+<div class="load-box">
+    <div class="spinner-grow" style="width: 5rem; height: 5rem" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+<style>
+    .load-box {
+        display: table-cell;
+        height: 40vw;
+        text-align: center;
+        width: 100vw;
+        vertical-align: middle;
+    }
+</style>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        let pathToPage = "/Home/Index/";
+
+        fetch(pathToPage)
+            .then(resp => resp.text())
+            .then(data => {
+                window.location.href = pathToPage;
+            })
+            .catch(err => console.log(err));
+    });
+</script>

@@ -1,0 +1,102 @@
+﻿@model IEnumerable<Product>
+
+<div class="container p-3">
+	<div class="row pt-4">
+		<div class="col-6">
+			<h2 class="text-primary">Product List</h2>
+		</div>
+
+		<div class="col-6 text-end">
+			<a asp-action="Upsert" class="btn btn-primary">
+				<i class="fa-solid fa-plus"></i> &nbsp; Create a new Product
+			</a>
+		</div>
+	</div>
+
+	<br /> <br />
+
+	@if (Model.Count() > 0)
+	{
+		<table class="table table-bordered table-striped" width="100%">
+			<thead>
+				<tr>
+					<th>
+						Product Name
+					</th>
+					<th>
+						Price
+					</th>
+					<th>
+						Category
+					</th>
+					<th>
+						Application type
+					</th>
+					<th></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				@foreach (var el in Model)
+				{
+					<tr>
+						<td width="30%">@el.Name</td>
+						<td width="20%">@el.Price</td>
+						<td width="25%">@el.Category.Name</td>
+						<td width="25%">@el.AppType.Name</td>
+						<td class="text-center">
+							<div class="w-30 btn-group" role="group">
+								<a asp-action="Upsert" asp-route-ID="@el.ID" class="btn btn-light mx-3">
+									<i class="fa-solid fa-pen-to-square"></i>
+								</a>
+								<a type="button" asp-route-ID="@el.ID" class="btn btn-danger mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="SelectItem(@el.ID)">
+									<i class="fa-solid fa-trash-can"></i>
+								</a>
+							</div>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+
+	@if (Model.Count() == 0)
+	{
+		<p>Product is not exists</p>
+	}
+
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+				</div>
+				<div class="modal-body text-center">
+					<h5>
+						Delete item?
+					</h5>
+				</div>
+				<div class="modal-footer justify-content-center">
+					<button type="button" class="btn btn-danger" onclick="DeleteItemBySelectedID()" data-bs-dismiss="modal">Delete</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+	let idSelectedItem = 0;
+
+	function SelectItem(id) {
+		idSelectedItem = id;
+	}
+
+	function DeleteItemBySelectedID() {
+		fetch('/Product/Delete/' + idSelectedItem);
+
+		setInterval(func => { location.reload() }, 100);
+	}
+
+</script>
+
